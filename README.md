@@ -11,7 +11,7 @@ Ansible module for managing DNS records on Yandex public DNS hosting
 
 ## installation
 
-Copy `yandexdns.py` file to `library/` folder. 
+Copy `yandexdns.py` file to the `library/` folder. 
 
 ## recognized parameters
 `token` (required) - the yandex pdd api token, can be obtained at https://pddimp.yandex.ru/api2/admin/get_token
