@@ -189,7 +189,7 @@ def main():
                 token=dict(required=True, type='str'),
                 state=dict(default='present', choices=['present', 'absent'], type='str')
             ),
-            supports_check_mode=False
+            supports_check_mode=True
     )
 
     yandexdns = Yandexdns(module);
@@ -199,6 +199,13 @@ def main():
     err = ''
     result = {}
     result['state'] = yandexdns.state
+
+    if module.check_mode:
+        if yandexdns.state == 'absent':
+            changed = True if yandexdns.dnsrecord_exists() else False
+        elif yandexdns.state == 'present':
+            changed = False if yandexdns.dnsrecord_exists() else True
+        module.exit_json(changed=changed)
 
     if yandexdns.state == 'absent':
 
@@ -231,4 +238,3 @@ def main():
 
 from ansible.module_utils.basic import *
 main()
-
