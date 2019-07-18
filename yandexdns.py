@@ -2,8 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import pycurl
-from StringIO import StringIO
-from urllib import urlencode
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import BytesIO as StringIO
+from six import ensure_str
+from six.moves.urllib_parse import urlencode
 
 class Yandexdns(object):
     platform = 'Generic'
@@ -53,7 +57,7 @@ class Yandexdns(object):
         c.setopt(c.HTTPHEADER, ['PddToken: ' + self.token])
         c.perform()
         http_response_code = c.getinfo(c.RESPONSE_CODE)
-        http_response_data = json.loads(buffer.getvalue())
+        http_response_data = json.loads(ensure_str(buffer.getvalue()))
         c.close()
         if 200 != http_response_code:
             self.module.fail_json(msg='Error querying yandex pdd api, HTTP status=' + c.getinfo(c.RESPONSE_CODE) + ' error=' + http_response_data.error)
