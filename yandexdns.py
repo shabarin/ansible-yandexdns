@@ -94,6 +94,8 @@ class Yandexdns(object):
                 'content' : self.content, 
                 'subdomain' : self.subdomain, 
         }
+        if self.type == 'A' or self.type == 'AAAA':
+            post_data['ttl'] = self.ttl
         if self.type == 'SOA':
             post_data['admin_mail'] = self.admin_mail
             post_data['ttl'] = self.ttl
@@ -142,6 +144,8 @@ class Yandexdns(object):
                     'content' : self.content, 
                     'priority' : self.priority 
             }
+            if self.type == 'A' or self.type == 'AAAA':
+                post_data['ttl'] = self.ttl
             if self.type == 'SOA':
                 post_data['ttl'] = self.ttl
                 post_data['admin_mail'] = self.admin_mail
